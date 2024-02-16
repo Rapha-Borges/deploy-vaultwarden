@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    volumes:
+      - /opt/vw:/data
+        
+    ports:
+      - "80:80"
+      - "3012:3012"
+    environment:
+      ADMIN_TOKEN: ${VAULTWARDEN_ADMIN_TOKEN}
+
+  nginx-proxy:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '8080:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '81:81'   # Admin Web Port
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+
+  backup:
+    image: ttionya/vaultwarden-backup:latest
+    restart: always
+    volumes:
+      - /opt/vw:/bitwarden/data/
+      - vaultwarden-rclone-data:/config/
+      - ./vaultwarden-backup/:/.env
+
+volumes:
+  vaultwarden-data:
+    # Specify the name of the volume where you save the vaultwarden data,
+    name: vaultwarden-data
+  vaultwarden-rclone-data:
+    external: true
+    # Specify the name of the volume where you save the rclone configuration,
+    name: vaultwarden-rclone-data
