@@ -31,7 +31,7 @@ cd vaultwarden
 2. Clone the repository.
 
 ```bash
-git clone https://https://github.com/Rapha-Borges/deploy-vaultwarden.git .
+git clone https://github.com/Rapha-Borges/deploy-vaultwarden.git .
 ```
 
 3. Create the ADMIN Token using a temporary container
