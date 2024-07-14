@@ -9,7 +9,7 @@ services:
       - /opt/vw:/data
         
     ports:
-      - "80:80"
+      - "8081:80"
       - "3012:3012"
     environment:
       ADMIN_TOKEN: ${VAULTWARDEN_ADMIN_TOKEN}
@@ -18,7 +18,7 @@ services:
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     ports:
-      - '8080:80' # Public HTTP Port
+      - '80:80' # Public HTTP Port
       - '443:443' # Public HTTPS Port
       - '81:81'   # Admin Web Port
     volumes:
